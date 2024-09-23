@@ -3,23 +3,20 @@ const dbConnect = require("./config/db.js")
 const app = express()
 const User = require("./models/user.js")
 
-app.post("/signup", async (req,res)=> {
+app.use(express.json())
 
-    const user = new User({
-        firstName:"purva",
-        lastName:"gund",
-        emailId:"purva@gmail.com",
-        password:"123",
-        gender:"female"
-    })
+app.post("/signup", async (req,res)=> {
+    console.log(req.body);
+    
+    const user = new User(req.body)
 
     try {
         await user.save()
-    res.send("User added successfully")
+        res.send("User added successfully")
     } catch (error) {
         res.status(400).send("Error saving user")
     }
-
+    //res.send("req body testing")
     
 })
 
